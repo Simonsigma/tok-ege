@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090b10">
+<title>TOK — ЕГЭ без скуки</title>
+<style>
+:root{--bg:#090b10;--panel:#11151e;--panel2:#171d28;--text:#f4f6fb;--muted:#929bad;--line:#252d3b;--lime:#c7ff62;--cyan:#63e5d3;--pink:#ff668b}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}body{min-height:100vh}button,input{font:inherit}button{cursor:pointer;color:inherit;border:0}
+.app{max-width:520px;margin:0 auto;min-height:100vh;background:radial-gradient(ellipse at 90% 0%,#19252c 0,transparent 36%),var(--bg);position:relative;padding-bottom:84px}
+.top{height:66px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff0c;position:sticky;top:0;background:#090b10eF;backdrop-filter:blur(18px);z-index:5}
+.logo{font-weight:950;letter-spacing:-2px;font-size:27px}.logo span{color:var(--lime)}.tag{font-size:10px;color:var(--muted);letter-spacing:1.7px;font-weight:800;margin-left:8px}
+.streak{border:1px solid #313b47;background:#141a22;border-radius:30px;padding:7px 11px;font-size:12px;font-weight:800}.streak b{color:var(--lime)}
+.screen{display:none}.screen.active{display:block}.feed-head{padding:18px 18px 10px;display:flex;align-items:end;justify-content:space-between}.eyebrow{font-size:10px;letter-spacing:2px;color:var(--lime);font-weight:900}.heading{font-size:25px;font-weight:900;letter-spacing:-1px;margin-top:4px}.switch{display:flex;background:#171d27;padding:3px;border-radius:12px;gap:2px}.switch button{background:transparent;color:var(--muted);padding:7px 10px;border-radius:9px;font-size:11px;font-weight:800}.switch button.active{background:#303b48;color:white}
+.feed{padding:8px 12px 20px;display:grid;gap:14px}
+.post{min-height:490px;border:1px solid #ffffff12;border-radius:25px;overflow:hidden;position:relative;background:linear-gradient(145deg,#1a2630,#11151e 60%);display:flex;flex-direction:column}
+.post[data-subject="ХИМИЯ"]{background:radial-gradient(circle at 80% 15%,#4d3b1d 0,transparent 34%),linear-gradient(145deg,#242117,#11151e 70%)}
+.post[data-subject="БИОЛОГИЯ"]{background:radial-gradient(circle at 80% 15%,#1b5149 0,transparent 34%),linear-gradient(145deg,#132c2b,#11151e 70%)}
+.post-top{display:flex;align-items:center;justify-content:space-between;padding:17px 17px 6px}.subject{font-size:10px;letter-spacing:1.7px;font-weight:950;color:var(--lime)}.level{font-size:10px;color:#d5dbe5;background:#ffffff12;border:1px solid #ffffff17;border-radius:20px;padding:6px 9px}
+.visual{height:148px;margin:12px 16px 10px;border-radius:19px;background:#ffffff09;border:1px solid #ffffff12;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.visual:before,.visual:after{content:"";position:absolute;border:1px solid #ffffff12;border-radius:50%;width:190px;height:190px}.visual:after{width:130px;height:130px}
+.visual .symbol{font-size:62px;font-weight:950;letter-spacing:-5px;color:var(--lime);text-shadow:0 0 35px #c7ff6233;z-index:1}
+.post[data-subject="БИОЛОГИЯ"] .symbol{color:var(--cyan);text-shadow:0 0 35px #63e5d333}
+.post-body{padding:4px 19px 0;flex:1}.post h2{font-size:23px;line-height:1.12;letter-spacing:-.8px;margin:7px 0 10px}.post p{font-size:13px;line-height:1.55;color:#c0c8d5;margin:0}.fact{margin-top:13px;padding:11px 13px;border-left:2px solid var(--lime);background:#ffffff09;border-radius:0 12px 12px 0;font-size:12px;line-height:1.45;color:#e4e9f1}.post[data-subject="БИОЛОГИЯ"] .fact{border-color:var(--cyan)}
+.post-bottom{padding:16px 15px 15px;display:flex;gap:7px;align-items:center}.react{flex:1;min-width:0;background:#ffffff0d;border:1px solid #ffffff13;border-radius:13px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:#d9e0eb;font-weight:800}.react .emoji{font-size:18px}.react small{font-size:9px;color:var(--muted);font-weight:600}.react.selected{border-color:var(--lime);background:#c7ff6217;color:var(--lime)}.comment-btn{width:47px;height:48px;border-radius:13px;background:#ffffff0d;border:1px solid #ffffff13;font-size:19px}
+.author{padding:0 18px 15px;display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px}.avatar{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#293543;color:var(--lime);font-size:11px;font-weight:900}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:76px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#0b0e14f2;backdrop-filter:blur(20px);border-top:1px solid #ffffff12;display:flex;justify-content:space-around;z-index:10}.nav{background:transparent;color:#788394;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9px;font-weight:800;min-width:60px}.nav .ico{font-size:21px}.nav.active{color:var(--lime)}
+.section{padding:22px 18px}.section-title{font-size:26px;font-weight:950;letter-spacing:-1px;margin:5px 0}.sub{color:var(--muted);font-size:13px;line-height:1.5}
+.search{margin:16px 0;width:100%;padding:14px 15px;background:var(--panel);border:1px solid var(--line);border-radius:14px;color:white;outline:none}.search:focus{border-color:var(--lime)}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px}.topic{padding:17px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#1b2530,#11151e);min-height:120px;text-align:left}.topic .big{font-size:27px}.topic strong{display:block;margin-top:12px;font-size:14px}.topic span{font-size:11px;color:var(--muted)}
+.quiz-card,.profile-card,.comment-panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:17px}.quiz-meta{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:1.5px}.question{font-size:19px;font-weight:850;line-height:1.3;margin:12px 0 17px}.answer{width:100%;text-align:left;padding:13px 14px;margin:5px 0;border:1px solid var(--line);border-radius:12px;background:#171d27;color:#e8edf5;font-size:13px}.answer.correct{border-color:#8bdc62;background:#8bdc6217}.answer.wrong{border-color:var(--pink);background:#ff668b17}.answer:disabled{cursor:default}.feedback{font-size:13px;line-height:1.5;margin-top:12px;color:var(--muted)}.next{margin-top:14px;background:var(--lime);color:#10150b;padding:12px 16px;border-radius:12px;font-weight:900;width:100%}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}.stat{background:#171d27;border-radius:13px;padding:13px 8px;text-align:center}.stat b{font-size:22px;display:block;color:var(--lime)}.stat span{font-size:10px;color:var(--muted)}
+.profile-head{display:flex;gap:13px;align-items:center}.profile-avatar{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,#c7ff62,#63e5d3);color:#111;font-weight:950;font-size:24px;display:grid;place-items:center}.profile-head h2{margin:0 0 4px;font-size:20px}.profile-head p{margin:0;color:var(--muted);font-size:12px}
+.achievement{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.achievement:last-child{border:0}.achievement .medal{font-size:23px}.achievement b{font-size:13px}.achievement small{display:block;color:var(--muted);margin-top:3px}
+.overlay{position:fixed;inset:0;background:#000a;z-index:20;display:none;align-items:end;justify-content:center}.overlay.open{display:flex}.sheet{width:min(520px,100%);max-height:82vh;overflow:auto;background:#111720;border:1px solid #ffffff1a;border-radius:24px 24px 0 0;padding:18px 17px calc(20px + env(safe-area-inset-bottom))}.sheet-head{display:flex;justify-content:space-between;align-items:center}.sheet-head h3{margin:0;font-size:18px}.close{background:#ffffff12;border-radius:50%;width:32px;height:32px}.comment{padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}.comment b{color:var(--lime);margin-right:6px}.comment p{margin:6px 0 0;color:#c1c9d5;line-height:1.45}.comment-form{display:flex;gap:8px;margin-top:14px}.comment-form input{min-width:0;flex:1;background:#1b2430;border:1px solid var(--line);border-radius:12px;padding:12px;color:white;outline:none}.comment-form button{background:var(--lime);color:#111;border-radius:12px;padding:0 15px;font-weight:900}
+.empty{padding:35px 20px;text-align:center;color:var(--muted);font-size:13px}
+.toast{position:fixed;bottom:90px;left:50%;transform:translate(-50%,15px);background:#e8ffbd;color:#151b0d;padding:10px 15px;border-radius:30px;font-size:12px;font-weight:900;opacity:0;transition:.25s;z-index:30;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:700px){body{padding:18px 0}.app{border:1px solid #ffffff15;border-radius:28px;overflow:hidden;min-height:calc(100vh - 36px)}.top{border-radius:28px 28px 0 0}.bottom{bottom:18px;border-radius:0 0 28px 28px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div><span class="logo">T<span>O</span>K</span><span class="tag">ЕГЭ LAB</span></div><div class="streak">⚡ <b id="streak">0</b> дней</div></header>
+
+<main id="feedScreen" class="screen active">
+  <div class="feed-head"><div><div class="eyebrow">ТВОЯ УЧЕБНАЯ ЛЕНТА</div><div class="heading">Лови знания.</div></div><div class="switch"><button class="active" data-filter="all">Все</button><button data-filter="ХИМИЯ">Химия</button><button data-filter="БИОЛОГИЯ">Био</button></div></div>
+  <div class="feed" id="feed"></div>
+</main>
+
+<main id="exploreScreen" class="screen">
+  <section class="section"><div class="eyebrow">БИБЛИОТЕКА</div><div class="section-title">Что разберём?</div><p class="sub">Выбирай тему и прокачивай знания маленькими порциями.</p>
+  <input id="search" class="search" placeholder="⌕  Найти тему или термин...">
+  <div class="topic-grid" id="topics">
+   <button class="topic" data-topic="Органическая химия"><div class="big">🧪</div><strong>Органика</strong><span>Реакции и классы веществ</span></button>
+   <button class="topic" data-topic="Клетка"><div class="big">🧫</div><strong>Клетка</strong><span>Органоиды и процессы</span></button>
+   <button class="topic" data-topic="Генетика"><div class="big">🧬</div><strong>Генетика</strong><span>Законы и задачи</span></button>
+   <button class="topic" data-topic="Растворы"><div class="big">⚗️</div><strong>Растворы</strong><span>Концентрации и расчёты</span></button>
+   <button class="topic" data-topic="Анатомия"><div class="big">🫀</div><strong>Анатомия</strong><span>Системы органов</span></button>
+   <button class="topic" data-topic="Окислительно-восстановительные реакции"><div class="big">⚡</div><strong>ОВР</strong><span>Электронный баланс</span></button>
+  </div></section>
+</main>
+
+<main id="quizScreen" class="screen">
+ <section class="section"><div class="eyebrow">МИКРОТРЕНИРОВКА</div><div class="section-title">Проверь себя.</div><p class="sub">Один вопрос за раз. Ошибки — это тоже прогресс.</p>
+ <div class="quiz-card"><div class="quiz-meta" id="quizMeta">ВОПРОС 1 · ХИМИЯ</div><div class="question" id="question"></div><div id="answers"></div><div id="feedback" class="feedback"></div><button id="nextQuestion" class="next" style="display:none">Следующий вопрос →</button></div>
+ <div class="statrow"><div class="stat"><b id="quizCorrect">0</b><span>верно</span></div><div class="stat"><b id="quizTotal">0</b><span>отвечено</span></div><div class="stat"><b id="quizRate">—</b><span>точность</span></div></div></section>
+</main>
+
+<main id="profileScreen" class="screen">
+ <section class="section"><div class="eyebrow">ТВОЙ ПРОФИЛЬ</div><div class="section-title">Растёшь с каждым днём.</div>
+ <div class="profile-card"><div class="profile-head"><div class="profile-avatar">T</div><div><h2>ЕГЭ-исследователь</h2><p>Участник TOK · учусь без зубрёжки</p></div></div><div class="statrow"><div class="stat"><b id="profileReactions">0</b><span>реакций</span></div><div class="stat"><b id="profileComments">0</b><span>комментариев</span></div><div class="stat"><b id="profilePoints">0</b><span>баллов TOK</span></div></div></div>
+ <div class="profile-card"><div class="eyebrow">ТВОИ ДОСТИЖЕНИЯ</div><div class="achievement"><div class="medal">🧪</div><div><b>Первая реакция</b><small>Попробуй тематическую реакцию на пост</small></div></div><div class="achievement"><div class="medal">🧠</div><div><b>Разогрев мозга</b><small>Ответь на первый вопрос тренировки</small></div></div><div class="achievement"><div class="medal">🔥</div><div><b>В ритме</b><small>Заходи и учись каждый день</small></div></div></div>
+ <p class="sub">Данные сохраняются только в этом браузере на этом устройстве.</p></section>
+</main>
+
+<nav class="bottom">
+ <button class="nav active" data-screen="feedScreen"><span class="ico">▣</span>Лента</button>
+ <button class="nav" data-screen="exploreScreen"><span class="ico">⌕</span>Темы</button>
+ <button class="nav" data-screen="quizScreen"><span class="ico">✳</span>Тренировка</button>
+ <button class="nav" data-screen="profileScreen"><span class="ico">◉</span>Профиль</button>
+</nav>
+</div>
+
+<div class="overlay" id="commentsOverlay"><div class="sheet"><div class="sheet-head"><h3>Обсуждение</h3><button class="close" id="closeComments">×</button></div><div id="commentsList"></div><form class="comment-form" id="commentForm"><input id="commentInput" maxlength="240" placeholder="Добавить комментарий..." required><button>➤</button></form></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const posts=[
+{id:1,subject:"ХИМИЯ",level:"ЕГЭ · БАЗА",symbol:"C₂H₅OH",title:"Спирты: как не путать их с фенолами",desc:"У спиртов гидроксильная группа —OH связана с насыщенным атомом углерода. У фенолов —OH напрямую связана с бензольным кольцом.",fact:"Запомни: C₆H₅OH — фенол, а не обычный одноатомный спирт. Это частая ловушка в заданиях на классификацию.",author:"chem.daily",reactions:["🧪","⚗️","💡"],labels:["В реакцию","Разложить","Ясно!"],comments:[["masha","то есть решает именно окружение OH?"],["tok.lab","да! смотри, с каким атомом углерода она связана."]]},
+{id:2,subject:"БИОЛОГИЯ",level:"ЕГЭ · КЛЕТКА",symbol:"ATP",title:"Кто производит большую часть АТФ?",desc:"Митохондрии — место клеточного дыхания у эукариот. Здесь при окислении органических веществ синтезируется основная часть АТФ.",fact:"Не перепутай: рибосомы синтезируют белок, а митохондрии обеспечивают клетку энергией в форме АТФ.",author:"bio.inside",reactions:["🫀","🧬","💡"],labels:["Прижилось","Вскрыть","Ясно!"],comments:[["egeshnik","а у растений тоже есть митохондрии?"],["tok.lab","да, у растительных клеток они тоже есть."]]},
+{id:3,subject:"ХИМИЯ",level:"ЕГЭ · РЕАКЦИИ",symbol:"Zn + HCl",title:"Металл + кислота: что получится?",desc:"Цинк реагирует с соляной кислотой с образованием соли и водорода: Zn + 2HCl → ZnCl₂ + H₂↑.",fact:"Правило работает для металлов, стоящих в ряду активности до водорода, если речь о неокисляющих кислотах.",author:"reaction.room",reactions:["⚡","🧪","💡"],labels:["В реакцию","Разложить","Ясно!"],comments:[["max","а медь так сможет?"],["tok.lab","нет, медь стоит после водорода в ряду активности."]]},
+{id:4,subject:"БИОЛОГИЯ",level:"ЕГЭ · ГЕНЕТИКА",symbol:"Aa × Aa",title:"Моногибридное скрещивание",desc:"При скрещивании двух гетерозигот Aa × Aa генотипы потомства распределяются как 1 AA : 2 Aa : 1 aa.",fact:"При полном доминировании фенотипическое расщепление будет 3 : 1. Генотипическое — 1 : 2 : 1.",author:"gene.pool",reactions:["🧬","🫀","💡"],labels:["Прижилось","Вскрыть","Ясно!"],comments:[["lera","вот это наконец понятно"],["tok.lab","сохрани соотношения, они часто встречаются в задачах."]]},
+{id:5,subject:"ХИМИЯ",level:"ЕГЭ · РАСТВОРЫ",symbol:"ω = m/M",title:"Массовая доля вещества",desc:"Массовая доля растворённого вещества — отношение массы вещества к массе всего раствора.",fact:"ω = m(вещества) / m(раствора). Чтобы получить проценты, умножь результат на 100%.",author:"chem.daily",reactions:["⚗️","🧪","💡"],labels:["В реакцию","Разложить","Ясно!"],comments:[["ivan","раствор это вещество плюс вода?"],["tok.lab","да, в простейшем случае масса раствора — сумма масс растворённого вещества и растворителя."]]}
+];
+const quiz=[
+{subject:"ХИМИЯ",q:"Какое вещество относится к фенолам?",a:["Этанол","Фенол C₆H₅OH","Этаналь","Этановая кислота"],correct:1,why:"У фенола гидроксильная группа непосредственно связана с бензольным кольцом."},
+{subject:"БИОЛОГИЯ",q:"Какая органелла участвует в синтезе белка?",a:["Лизосома","Рибосома","Митохондрия","Вакуоль"],correct:1,why:"Рибосомы — структуры, на которых происходит трансляция, то есть синтез белка."},
+{subject:"ХИМИЯ",q:"Какой газ выделяется при реакции цинка с соляной кислотой?",a:["Кислород","Углекислый газ","Водород","Азот"],correct:2,why:"Zn + 2HCl → ZnCl₂ + H₂↑. Выделяется водород."},
+{subject:"БИОЛОГИЯ",q:"Какое расщепление по генотипу ожидается при Aa × Aa?",a:["3 : 1","1 : 1","1 : 2 : 1","9 : 3 : 3 : 1"],correct:2,why:"Комбинации: AA, Aa, Aa, aa. Получается 1 : 2 : 1."},
+{subject:"ХИМИЯ",q:"Как вычислить массовую долю растворённого вещества?",a:["m раствора / m вещества","m вещества / m раствора","m вещества × m раствора","m вещества + m раствора"],correct:1,why:"Массовая доля равна отношению массы растворённого вещества к массе раствора."}
+];
+const $=s=>document.querySelector(s);
+const state=JSON.parse(localStorage.getItem("tokState")||'{"reactions":{},"comments":{},"points":0,"answered":0,"correct":0,"lastDay":"","streak":0}');
+function save(){localStorage.setItem("tokState",JSON.stringify(state));updateProfile()}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800)}
+function updateProfile(){let rc=Object.keys(state.reactions).length;$("#profileReactions").textContent=rc;$("#profileComments").textContent=Object.values(state.comments).reduce((n,a)=>n+a.length,0);$("#profilePoints").textContent=state.points;$("#streak").textContent=state.streak}
+function renderFeed(filter="all"){const root=$("#feed");root.innerHTML="";posts.filter(p=>filter==="all"||p.subject===filter).forEach(p=>{const selected=state.reactions[p.id];const comments=[...p.comments,...(state.comments[p.id]||[])];let card=document.createElement("article");card.className="post";card.dataset.subject=p.subject;card.innerHTML=`<div class="post-top"><span class="subject">${p.subject}</span><span class="level">${p.level}</span></div><div class="visual"><div class="symbol">${p.symbol}</div></div><div class="post-body"><h2>${p.title}</h2><p>${p.desc}</p><div class="fact">✦ ${p.fact}</div></div><div class="post-bottom">${p.labels.map((label,i)=>`<button class="react ${selected===i?"selected":""}" data-react="${i}" data-id="${p.id}"><span class="emoji">${p.reactions[i]}</span>${label}<small>${(p.baseCounts?.[i]||[18,7,32][i])+(selected===i?1:0)}</small></button>`).join("")}<button class="comment-btn" data-comments="${p.id}" aria-label="Комментарии">☷</button></div><div class="author"><span class="avatar">${p.author[0].toUpperCase()}</span>@${p.author} · мини-разбор</div>`;root.appendChild(card)});}
+$("#feed").addEventListener("click",e=>{const r=e.target.closest("[data-react]");if(r){const id=r.dataset.id,i=Number(r.dataset.react);if(state.reactions[id]===i){delete state.reactions[id];toast("Реакция отменена")}else{state.reactions[id]=i;state.points+=2;toast(["Реакция засчитана +2 TOK","Разобрал тему +2 TOK","Понял материал +2 TOK"][i])}save();renderFeed(document.querySelector(".switch button.active").dataset.filter);return}const c=e.target.closest("[data-comments]");if(c)openComments(Number(c.dataset.comments));});
+document.querySelectorAll(".switch button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".switch button").forEach(x=>x.classList.toggle("active",x===b));renderFeed(b.dataset.filter)}));
+function openComments(id){const p=posts.find(x=>x.id===id);$("#commentsOverlay").dataset.post=id;const all=[...p.comments,...(state.comments[id]||[])];$("#commentsList").innerHTML=all.map(([name,msg])=>`<div class="comment"><b>@${escapeHtml(name)}</b>${escapeHtml(msg)}</div>`).join("")||'<div class="empty">Пока тихо. Начни обсуждение!</div>';$("#commentsOverlay").classList.add("open");$("#commentInput").focus()}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+$("#closeComments").onclick=()=>$("#commentsOverlay").classList.remove("open");
+$("#commentsOverlay").addEventListener("click",e=>{if(e.target.id==="commentsOverlay")$("#commentsOverlay").classList.remove("open")});
+$("#commentForm").addEventListener("submit",e=>{e.preventDefault();let id=$("#commentsOverlay").dataset.post,msg=$("#commentInput").value.trim();if(!msg)return;(state.comments[id]??=[]).push(["ты",msg]);state.points+=1;save();$("#commentInput").value="";openComments(Number(id));toast("Комментарий добавлен +1 TOK")});
+document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===b.dataset.screen));if(b.dataset.screen==="quizScreen"&&!quizStarted)showQuestion()}));
+$("#search").addEventListener("input",e=>{let q=e.target.value.toLowerCase();document.querySelectorAll(".topic").forEach(t=>t.style.display=t.textContent.toLowerCase().includes(q)?"block":"none")});
+document.querySelectorAll(".topic").forEach(t=>t.addEventListener("click",()=>{let topic=t.dataset.topic;toast("Открываем тему: "+topic);document.querySelector('[data-screen="feedScreen"]').click();if(topic==="Клетка"||topic==="Анатомия")document.querySelector('[data-filter="БИОЛОГИЯ"]').click();else document.querySelector('[data-filter="ХИМИЯ"]').click()}));
+let qi=0,quizStarted=false,answeredThis=false;
+function showQuestion(){quizStarted=true;answeredThis=false;let q=quiz[qi%quiz.length];$("#quizMeta").textContent=`ВОПРОС ${qi+1} · ${q.subject}`;$("#question").textContent=q.q;$("#feedback").textContent="";$("#nextQuestion").style.display="none";$("#answers").innerHTML=q.a.map((a,i)=>`<button class="answer" data-answer="${i}">${String.fromCharCode(65+i)}. ${a}</button>`).join("")}
+$("#answers").addEventListener("click",e=>{let b=e.target.closest("[data-answer]");if(!b||answeredThis)return;answeredThis=true;let q=quiz[qi%quiz.length],pick=Number(b.dataset.answer),ok=pick===q.correct;document.querySelectorAll(".answer").forEach((x,i)=>{x.disabled=true;if(i===q.correct)x.classList.add("correct");else if(i===pick)x.classList.add("wrong")});state.answered++;if(ok){state.correct++;state.points+=5}save();$("#feedback").textContent=(ok?"Верно! +5 TOK. ":"Не совсем. ")+q.why;$("#nextQuestion").style.display="block";$("#quizCorrect").textContent=state.correct;$("#quizTotal").textContent=state.answered;$("#quizRate").textContent=Math.round(state.correct/state.answered*100)+"%"});
+$("#nextQuestion").onclick=()=>{qi++;showQuestion()};
+function daily(){let today=new Date().toISOString().slice(0,10);if(state.lastDay!==today){let y=new Date(Date.now()-86400000).toISOString().slice(0,10);state.streak=state.lastDay===y?state.streak+1:1;state.lastDay=today;save()}}
+daily();renderFeed();updateProfile();$("#quizCorrect").textContent=state.correct;$("#quizTotal").textContent=state.answered;$("#quizRate").textContent=state.answered?Math.round(state.correct/state.answered*100)+"%":"—";
+</script>
+</body>
+</html>
